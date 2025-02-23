@@ -1,0 +1,145 @@
+<!Doctype html>
+<html>
+  <head>
+
+<title>Game</title>
+<style>
+  *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+body{
+  padding: 10px;
+}
+div{
+  border: 2px solid;
+  text-align:center ;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+h1{
+  font-size: 1.5rem;
+  text-align: center;
+}
+button{
+  border: none;
+  background-color: gray;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 30px;
+}
+img{
+  width:80px;
+  border-radius: 50%;
+}
+p{
+  font-weight: 500;
+  font-family: Monospace;
+}
+</style>
+  </head>
+<body>
+  <div>
+<h1 id="myH1">Rock,Paper,Scissors</h1>
+<p id="comparison">
+
+  
+</p>
+<p id="results"></p>
+<p id="scores"></p>
+<button id="btn-rock">rock</button>
+<button id="btn-paper">paper</button>
+<button id="btn-scissors">scissors</button>
+<button id="btn-reset">reset</button>
+</div>
+<button id="autoPlay">autoPlay</button>
+  <script>
+{
+  const score = load() ?? {
+  wins:0,
+  loss:0,
+  ties:0
+};
+function zeroPad(score){
+  
+  let newScore = String(score);
+  if(newScore.length < 2){
+    newScore = newScore.padStart(2,'0');
+  }
+  return newScore;
+}
+function save(){
+  return localStorage.setItem('score',JSON.stringify(score));
+}
+function load(){
+  return JSON.parse(localStorage.getItem('score'));
+}
+
+function update(player,computer,result){
+    const compare = document.querySelector('#comparison');
+  const results = document.querySelector('#results');
+  const scores= document.querySelector('#scores');
+  
+  
+  compare.innerHTML = `PLAYER <img src="${player}.png">  <img src="${computer}.png">COMPUTER`;
+  
+  
+ results.innerHTML = result;
+ scores.innerHTML = `Wins: ${zeroPad(score.wins)} Ties: ${zeroPad(score.ties)} Loss: ${zeroPad(score.loss)}`;
+}
+function computerMovement(){
+  const computerChoice = ['rock','paper','scissors'];
+const rand = Math.floor(Math.random()*computerChoice.length);
+ const computer = computerChoice[rand];
+ return computer;
+}
+
+function playGame(player){
+  const computer = computerMovement();
+ let result;
+ 
+ computer === player ?result = 'Tie Game':
+ computer === 'rock' && player === 
+ 'scissors' ?result = 'computer wins' : computer
+ === 'scissors' && player === 'paper' ?
+ result = 'computer wins' : computer=== 
+ 'paper' && player === 'rock' ? result = 
+ 'computer wins' : result = 'player wins';
+
+ result === 'computer wins'?score.loss++:
+ result === 'Tie Game' ? score.ties++:
+ score.wins++;
+ save();
+ 
+ update(player,computer,result)
+
+  
+}
+let interval;
+let isPlaying = false;
+document.querySelector('#autoPlay').onclick =()=>{ 
+  if(!isPlaying){
+ interval = setInterval(()=>{
+   playGame(computerMovement());
+ },1000);
+    isPlaying = true;
+    document.querySelector('#autoPlay').textContent = 'Stop AutoPlay';
+  }else{
+    clearInterval(interval);
+    isPlaying = false;
+    document.querySelector('#autoPlay').textContent = 'autoPlay'
+  }
+};
+document.querySelector('#btn-rock').onclick =()=>{ playGame('rock')};
+document.querySelector('#btn-paper').onclick =()=>{ playGame('paper')};
+document.querySelector('#btn-scissors').onclick =()=>{ playGame('scissors')};
+document.querySelector('#btn-reset').onclick = ()=>{
+  localStorage.removeItem('score');
+  location.reload();
+};
+}
+  </script>
+</body>
+</html>
