@@ -94,7 +94,7 @@ function update(player,computer,result){
   
   
  results.innerHTML = result;
- scores.innerHTML = `Wins: ${zeroPad(score.wins)} Ties: ${zeroPad(score.ties)} Loss: ${zeroPad(score.loss)}`;
+ scores.innerHTML = `<span style="color:green;">Wins: ${zeroPad(score.wins)} </span> <span style="color:coral;">Ties: ${zeroPad(score.ties)} </span><span style="color:red;">Loss: ${zeroPad(score.loss)}</span>`;
 }
 function computerMovement(){
   const computerChoice = ['rock','paper','scissors'];
